@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLZZLE — Oru Cup Oxygen</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Latha&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --gold:#c8a84b;
+  --gold-light:#f0d080;
+  --gold-dim:#7a6030;
+  --bg:#110720;
+  --text:#e8d09a;
+  --text-dim:#9a7e4a;
+  --border:rgba(200,168,75,0.2);
+  --radius:8px;
+}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'EB Garamond',Georgia,serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+body::before{
+  content:'ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ் ழ த மி ழ்';
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  font-family:'Latha',serif;
+  font-size:48px;
+  line-height:1.4;
+  color:rgba(200,168,75,0.05);
+  word-break:break-all;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+
+.page{
+  position:relative;
+  z-index:1;
+  max-width:620px;
+  margin:0 auto;
+  padding:48px 24px 64px;
+}
+
+/* Logo */
+.logo-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:48px;
+}
+.brand-name{
+  font-family:'EB Garamond',Georgia,serif;
+  font-size:18px;
+  color:var(--gold);
+}
+
+/* Hero */
+.hero{text-align:center;margin-bottom:48px;}
+
+.solzzle-name{
+  font-family:'EB Garamond',Georgia,serif;
+  font-size:56px;
+  font-weight:500;
+  color:var(--gold-light);
+  letter-spacing:6px;
+  margin-bottom:14px;
+  line-height:1;
+}
+
+.hero-tag{
+  display:inline-block;
+  border:0.5px solid var(--border);
+  border-radius:20px;
+  padding:6px 18px;
+  font-size:18px;
+  color:var(--gold-dim);
+  letter-spacing:0.5px;
+  margin-bottom:20px;
+  font-family:'Latha',serif;
+}
+
+.hero-sub{
+  font-size:16px;
+  color:var(--text-dim);
+  line-height:1.7;
+  font-style:italic;
+  max-width:440px;
+  margin:0 auto;
+}
+
+/* Prize banner */
+.prize-banner{
+  background:rgba(200,168,75,0.05);
+  border:0.5px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px 24px;
+  margin-bottom:40px;
+  text-align:center;
+}
+.prize-label{
+  font-size:11px;
+  color:var(--gold-dim);
+  letter-spacing:1.5px;
+  margin-bottom:8px;
+}
+.prize-value{
+  font-size:19px;
+  color:var(--gold-light);
+  line-height:1.5;
+}
+
+/* Form */
+.form-block{display:flex;flex-direction:column;gap:22px;}
+.field{display:flex;flex-direction:column;gap:8px;}
+
+.field label{
+  font-size:11px;
+  color:var(--gold-dim);
+  letter-spacing:1.5px;
+}
+
+.field input,
+.field textarea{
+  background:rgba(255,255,255,0.03);
+  border:0.5px solid var(--border);
+  border-radius:var(--radius);
+  padding:13px 16px;
+  font-size:16px;
+  color:var(--text);
+  font-family:'Latha',serif;
+  outline:none;
+  transition:border-color 0.2s;
+  width:100%;
+}
+.field input::placeholder,
+.field textarea::placeholder{
+  color:rgba(200,168,75,0.22);
+  font-family:'EB Garamond',Georgia,serif;
+  font-size:14px;
+  font-style:italic;
+}
+.field input:focus,
+.field textarea:focus{border-color:rgba(200,168,75,0.45);}
+.field textarea{resize:vertical;min-height:90px;line-height:1.6;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+.contact-note{
+  font-size:12px;
+  color:var(--gold-dim);
+  font-style:italic;
+}
+
+.error-msg{
+  font-size:14px;
+  color:#e07070;
+  display:none;
+  padding:12px 16px;
+  background:rgba(220,80,80,0.07);
+  border:0.5px solid rgba(220,80,80,0.2);
+  border-radius:var(--radius);
+  line-height:1.5;
+}
+
+.submit-btn{
+  background:transparent;
+  border:1px solid var(--gold);
+  border-radius:var(--radius);
+  padding:14px 32px;
+  font-size:17px;
+  color:var(--gold-light);
+  cursor:pointer;
+  font-family:'EB Garamond',Georgia,serif;
+  letter-spacing:0.3px;
+  transition:background 0.2s;
+  align-self:flex-start;
+}
+.submit-btn:hover{background:rgba(200,168,75,0.1);}
+.submit-btn:active{transform:scale(0.98);}
+.submit-btn:disabled{opacity:0.45;cursor:not-allowed;}
+
+/* Wrong answer screen */
+.wrong-screen{display:none;text-align:center;padding:32px 0;}
+.wrong-screen.visible{display:block;animation:fadeUp 0.4s ease;}
+
+.wrong-icon{
+  width:64px;height:64px;
+  border:1px solid rgba(220,120,80,0.5);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  font-size:26px;
+  color:#e09070;
+}
+.wrong-title{
+  font-family:'Latha',serif;
+  font-size:22px;
+  color:#e0a080;
+  margin-bottom:10px;
+}
+.wrong-sub{
+  font-size:15px;
+  color:var(--text-dim);
+  font-style:italic;
+  line-height:1.7;
+  max-width:380px;
+  margin:0 auto 24px;
+}
+.try-again-btn{
+  background:transparent;
+  border:1px solid rgba(200,168,75,0.4);
+  border-radius:var(--radius);
+  padding:12px 28px;
+  font-size:16px;
+  color:var(--gold);
+  cursor:pointer;
+  font-family:'EB Garamond',Georgia,serif;
+  transition:background 0.2s;
+}
+.try-again-btn:hover{background:rgba(200,168,75,0.08);}
+
+/* Success screen */
+.success-screen{display:none;text-align:center;padding:32px 0;}
+.success-screen.visible{display:block;animation:fadeUp 0.5s ease;}
+
+.success-icon{
+  width:64px;height:64px;
+  border:1px solid var(--gold);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 24px;
+  font-size:26px;
+  color:var(--gold);
+}
+.success-sub{
+  font-size:16px;
+  color:var(--text-dim);
+  line-height:1.7;
+  font-style:italic;
+  max-width:400px;
+  margin:0 auto 28px;
+}
+
+/* Kural reveal */
+.kural-reveal{
+  background:rgba(200,168,75,0.05);
+  border:0.5px solid var(--border);
+  border-radius:var(--radius);
+  padding:28px 28px 24px;
+  margin:0 auto 28px;
+  max-width:480px;
+  text-align:center;
+}
+.kural-reveal-tag{
+  font-size:11px;
+  color:var(--gold-dim);
+  letter-spacing:1.5px;
+  margin-bottom:18px;
+}
+.kural-line{
+  font-family:'Latha',serif;
+  font-size:22px;
+  color:var(--gold-light);
+  line-height:1.8;
+}
+.kural-bar{
+  width:40px;height:1px;
+  background:var(--gold);
+  opacity:0.4;
+  margin:18px auto;
+}
+.kural-meaning{
+  font-size:15px;
+  color:var(--text-dim);
+  font-style:italic;
+  line-height:1.7;
+  margin-bottom:16px;
+}
+.kural-focus{
+  font-size:13px;
+  color:var(--gold-dim);
+  line-height:1.7;
+  text-align:left;
+  padding-top:16px;
+  border-top:0.5px solid var(--border);
+}
+
+.success-note{
+  font-size:14px;
+  color:var(--gold-dim);
+  line-height:1.7;
+  max-width:380px;
+  margin:0 auto 32px;
+  padding:16px 20px;
+  border:0.5px solid var(--border);
+  border-radius:var(--radius);
+}
+
+.app-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.app-link{
+  display:inline-block;
+  border:0.5px solid var(--border);
+  border-radius:var(--radius);
+  padding:11px 22px;
+  font-size:14px;
+  color:var(--gold);
+  text-decoration:none;
+  transition:background 0.2s;
+}
+.app-link:hover{background:rgba(200,168,75,0.08);}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:480px){
+  .two-col{grid-template-columns:1fr;}
+  .solzzle-name{font-size:42px;}
+  .kural-line{font-size:19px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Logo -->
+  <div class="logo-row">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <circle cx="18" cy="18" r="16" stroke="#c8a84b" stroke-width="2.2"/>
+      <circle cx="18" cy="18" r="9" stroke="#c8a84b" stroke-width="1.8"/>
+      <text x="18" y="22" text-anchor="middle" font-size="9" fill="#c8a84b" font-family="Georgia">C</text>
+    </svg>
+    <span class="brand-name">Oru Cup Oxygen</span>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="solzzle-name">SOLZZLE</div>
+    <div class="hero-tag">The சொல் puzzle</div>
+    <div class="hero-sub">
+      Found all 8 words in the grid? Assembled the sentence?<br>
+      Submit your answer below for a chance to win.
+    </div>
+  </div>
+
+  <!-- Prize -->
+  <div class="prize-banner">
+    <div class="prize-label">THE PRIZE</div>
+    <div class="prize-value">One month of Oru Cup Oxygen — free.</div>
+  </div>
+
+  <!-- Form -->
+  <div id="formSection">
+    <div class="form-block">
+
+      <div class="two-col">
+        <div class="field">
+          <label>YOUR NAME · பெயர்</label>
+          <input type="text" id="nameInput" placeholder="Your name" autocomplete="off"/>
+        </div>
+        <div class="field">
+          <label>AGE · வயது</label>
+          <input type="number" id="ageInput" placeholder="Your age" min="1" max="120"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>YOUR ANSWER · உங்கள் விடை</label>
+        <textarea id="answerInput" placeholder="Type the complete sentence — in Tamil script or transliteration"></textarea>
+      </div>
+
+      <div class="field">
+        <label>EMAIL OR PHONE · மின்னஞ்சல் அல்லது தொலைபேசி</label>
+        <input type="text" id="contactInput" placeholder="Where should we reach you if you win?"/>
+        <div class="contact-note">Email or phone — whichever you prefer.</div>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">
+        Submit Entry &rarr;
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Wrong answer screen -->
+  <div class="wrong-screen" id="wrongScreen">
+    <div class="wrong-icon">✕</div>
+    <div class="wrong-title">பிழையான விடை</div>
+    <div class="wrong-sub">
+      மீண்டும் முயற்சிக்கவும்.<br>
+      Go back to the puzzle, check all 8 words, and try again.
+    </div>
+    <button class="try-again-btn" onclick="resetForm()">Try Again &rarr;</button>
+  </div>
+
+  <!-- Success screen -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✓</div>
+    <div class="success-sub">
+      You focused. You found. You assembled.<br>
+      That is exactly what this app is built for.
+    </div>
+
+    <div class="kural-reveal">
+      <div class="kural-reveal-tag">SOLZZLE · THIRUKKURAL · குறள் 1</div>
+      <div class="kural-line">அகர முதல எழுத்தெல்லாம் ஆதி</div>
+      <div class="kural-line">பகவன் முதற்றே உலகு</div>
+      <div class="kural-bar"></div>
+      <div class="kural-meaning">
+        As the letter A is the first of all letters,<br>
+        so the eternal God is first in the world.
+      </div>
+      <div class="kural-focus">
+        Thiruvalluvar began at the very beginning — the first letter, the first principle.
+        You just did the same. In a world designed to scatter your attention,
+        you held it long enough to find all 8 words and put them in order.
+        That is focus. And that is what Oru Cup Oxygen is here to help you practise —
+        every day, in Tamil.
+      </div>
+    </div>
+
+    <div class="success-note">
+      Your entry is in. We'll verify and reach out soon if you're selected.
+      Watch your email or phone — your free month may be on its way.
+    </div>
+
+    <p style="font-size:13px;color:var(--gold-dim);margin-bottom:18px;font-style:italic;">
+      Don't wait for the prize to start focusing.
+    </p>
+    <div class="app-links">
+      <a class="app-link" href="https://apps.apple.com/app/oru-cup-oxygen" target="_blank">↓ App Store</a>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.orucupoxygen" target="_blank">↓ Google Play</a>
+    </div>
+  </div>
+
+</div>
+<script>
+/*
+  ── SETUP INSTRUCTIONS ────────────────────────────────────────────────────────
+
+  1. Create a Google Sheet with these columns in Row 1:
+     Timestamp | Name | Age | Answer | Contact | UserAgent | Platform | Language | ScreenSize
+
+  2. In Google Sheets → Extensions → Apps Script, paste this code:
+     ---
+     function doPost(e) {
+       const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+       const data = JSON.parse(e.postData.contents);
+       sheet.appendRow([
+         data.timestamp, data.name, data.age, data.answer, data.contact,
+         data.userAgent, data.platform, data.language, data.screenSize
+       ]);
+       return ContentService.createTextOutput('OK');
+     }
+     ---
+
+  3. Deploy → New deployment → Web app → Execute as Me → Anyone → Deploy
+  4. Copy the Web App URL and paste it below as SHEET_URL
+
+  ─────────────────────────────────────────────────────────────────────────────
+*/
+
+const SHEET_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+
+const REQUIRED_WORDS = [
+  ['அகர','agara','akara','agaram'],
+  ['முதல','mudhal','mudal','mudhala','mudala','mutal'],
+  ['எழுத்து','ezhuthu','eluthu','ezhutthu','ezhuttu','ezhuththu'],
+  ['எல்லாம்','ellam','ellaam','yellam'],
+  ['ஆதி','aadhi','adi','aathi','aadi'],
+  ['பகவன்','bhagavan','bagavan','bhagawan','pagavan','pakavan'],
+  ['முதற்றே','mudhatre','mudatre','mudhartre','mudhattre','mutatre'],
+  ['உலகு','ulagu','ulaku','ulakku']
+];
+
+function validateAnswer(answer) {
+  const lower = answer.toLowerCase().trim();
+  let count = 0;
+  for (const variants of REQUIRED_WORDS) {
+    for (const v of variants) {
+      if (lower.includes(v.toLowerCase())) { count++; break; }
+    }
+  }
+  return count >= 6;
+}
+
+function getDeviceInfo() {
+  return {
+    userAgent: navigator.userAgent,
+    platform: navigator.platform || 'unknown',
+    language: navigator.language || 'unknown',
+    screenSize: screen.width + 'x' + screen.height
+  };
+}
+
+async function handleSubmit() {
+  const name    = document.getElementById('nameInput').value.trim();
+  const age     = document.getElementById('ageInput').value.trim();
+  const answer  = document.getElementById('answerInput').value.trim();
+  const contact = document.getElementById('contactInput').value.trim();
+  const errEl   = document.getElementById('errorMsg');
+  const btn     = document.getElementById('submitBtn');
+
+  errEl.style.display = 'none';
+
+  if (!name)    { showError('Please enter your name · உங்கள் பெயரை உள்ளிடவும்'); return; }
+  if (!age)     { showError('Please enter your age · வயதை உள்ளிடவும்'); return; }
+  if (!answer)  { showError('Please enter your answer · விடையை உள்ளிடவும்'); return; }
+  if (!contact) { showError('Please enter your email or phone · தொடர்பு விவரங்களை உள்ளிடவும்'); return; }
+
+  if (!validateAnswer(answer)) {
+    document.getElementById('formSection').style.display = 'none';
+    const w = document.getElementById('wrongScreen');
+    w.classList.add('visible');
+    w.scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  const d = getDeviceInfo();
+  const payload = {
+    name, age, answer, contact,
+    timestamp: new Date().toISOString(),
+    userAgent: d.userAgent,
+    platform: d.platform,
+    language: d.language,
+    screenSize: d.screenSize
+  };
+
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+  } catch(e) {
+    console.log('Sheet ping attempted:', e);
+  }
+
+  document.getElementById('formSection').style.display = 'none';
+  const s = document.getElementById('successScreen');
+  s.classList.add('visible');
+  s.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function resetForm() {
+  document.getElementById('wrongScreen').classList.remove('visible');
+  document.getElementById('wrongScreen').style.display = 'none';
+  document.getElementById('formSection').style.display = 'block';
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('submitBtn').textContent = 'Submit Entry →';
+  document.getElementById('answerInput').value = '';
+  document.getElementById('answerInput').focus();
+}
+
+function showError(msg) {
+  const e = document.getElementById('errorMsg');
+  e.textContent = msg;
+  e.style.display = 'block';
+}
+</script>
+</body>
+</html>
